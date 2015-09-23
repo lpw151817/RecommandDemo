@@ -29,7 +29,7 @@ public class Main {
 		// System.out.println(integer);
 		// }
 		try {
-			File f = new File("D:/similarity.txt");
+			File f = new File("D:/IBCFsimilarity.txt");
 			if (f.exists())
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -39,9 +39,9 @@ public class Main {
 			System.out.println(
 					"begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 7; i <= 943; i++) {
-				for (int j = i + 1; j <= 943; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getUBCFSimilarity(i, j) + "\r\n";
+			for (int i = 1; i <= 1682; i++) {
+				for (int j = i + 1; j <= 1682; j++) {
+					String s = i + "\t" + j + "\t" + dbUtils.getIBCFSimilarity(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}

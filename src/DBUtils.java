@@ -140,7 +140,7 @@ public class DBUtils {
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
-				int id = set.getInt(1);
+				int id = set.getInt(2);
 				if (id == movieId1) {
 					result[0] = set.getInt(3);
 				} else if (id == movieId2) {
