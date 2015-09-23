@@ -39,13 +39,8 @@ public class Main {
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 943; i++) {
 				for (int j = i + 1; j <= 943; j++) {
-					if (dbUtils.getSameMovieIds(i, j).size() == 0) {
-						String r = i + "\t" + j;
-						System.out.println(r);
-						fo.write((r + "\r\n").getBytes());
-					}else {
-						
-					}
+					String s = i + "\t" + j + "\t" + dbUtils.getSimilarity(i, j) + "\r\n";
+					fo.write(s.getBytes());
 				}
 			}
 			System.out.println("end = " + df.format(new java.util.Date(System.currentTimeMillis())));

@@ -90,6 +90,8 @@ public class DBUtils {
 	public double getSimilarity(int id1, int id2) {
 
 		List<Integer> tmp = getSameMovieIds(id1, id2);
+		if (tmp.size() == 0)
+			return 0;
 		// id1的rate数组
 		int[] sameMovieRate1 = new int[tmp.size()];
 		// id2的rate数组
@@ -113,8 +115,7 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRate(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
-					+ ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
