@@ -60,7 +60,12 @@ public class Utils {
 	public static double culSimilarity(int[] a, int[] b) {
 		if (a.length != b.length)
 			return -1;
-		else {
+		else if (a.length == 1) {
+			if (a[0] == b[0])
+				return 1;
+			else
+				return 0;
+		} else {
 			return culVectorMul(a, b) / (culVectorLength(a) * culVectorLength(b));
 		}
 	}

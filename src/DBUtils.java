@@ -115,7 +115,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRate(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
+					+ ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
