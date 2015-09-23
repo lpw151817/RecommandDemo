@@ -54,7 +54,6 @@ public class DBUtils {
 			sql += " ( " + colomnName + " ) values ( " + value + " )";
 			conn.createStatement().execute(sql);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -82,12 +81,36 @@ public class DBUtils {
 	}
 
 	/**
+	 * 计算两个物品的相似度
+	 * 
+	 * @param id1
+	 * @param id2
+	 */
+	public double getIBCFSimilarity(int movieId1, int movieId2) {
+		// 对这两部电影都有评分的用户id列表
+		List<Integer> tmp = getSameUserIds(movieId1, movieId2);
+		// 如果不存在，则说明两部电影相似度为0
+		if (tmp.size() == 0)
+			return 0;
+		// movieId1的rate数组
+		int[] rate1 = new int[tmp.size()];
+		// movieId2的rate数组
+		int[] rate2 = new int[tmp.size()];
+		for (int i = 0; i < tmp.size(); i++) {
+			int[] tmp2 = getSameMovieRateByMids(movieId1, movieId2, tmp.get(i));
+			rate1[i] = tmp2[0];
+			rate2[i] = tmp2[1];
+		}
+		return Utils.culSimilarity(rate1, rate2);
+	}
+
+	/**
 	 * 计算两个人的相似度
 	 * 
 	 * @param id1
 	 * @param id2
 	 */
-	public double getSimilarity(int id1, int id2) {
+	public double getUBCFSimilarity(int id1, int id2) {
 
 		List<Integer> tmp = getSameMovieIds(id1, id2);
 		if (tmp.size() == 0)
@@ -98,7 +121,7 @@ public class DBUtils {
 		int[] sameMovieRate2 = new int[tmp.size()];
 		// 获取相同电影的评分
 		for (int i = 0; i < tmp.size(); i++) {
-			int[] tmp2 = getSameMovieRate(id1, id2, tmp.get(i));
+			int[] tmp2 = getSameMovieRateByUids(id1, id2, tmp.get(i));
 			sameMovieRate1[i] = tmp2[0];
 			sameMovieRate2[i] = tmp2[1];
 		}
@@ -106,17 +129,39 @@ public class DBUtils {
 	}
 
 	/**
+	 * 获取一个人对两部电影的评价
+	 * 
+	 * @return 共返回两个int值，第一个是movieId1的rate，第二个是movieId2的rate
+	 */
+	public int[] getSameMovieRateByMids(int movieId1, int movieId2, int sameUid) {
+		try {
+			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2 + ") and user_id = "
+					+ sameUid;
+			ResultSet set = conn.createStatement().executeQuery(sql);
+			int[] result = new int[2];
+			while (set.next()) {
+				int id = set.getInt(1);
+				if (id == movieId1) {
+					result[0] = set.getInt(3);
+				} else if (id == movieId2) {
+					result[1] = set.getInt(3);
+				}
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
 	 * 获取两个人对于一部电影的评价
 	 * 
-	 * @param id1
-	 * @param id2
-	 * @param sameMovieId
 	 * @return 共返回两个int值，第一个是id1的rate，第二个是id2的rate
 	 */
-	public int[] getSameMovieRate(int id1, int id2, int sameMovieId) {
+	public int[] getSameMovieRateByUids(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
-					+ ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -134,10 +179,40 @@ public class DBUtils {
 		}
 	}
 
+	/**
+	 * 获取两个人都对同一部电影进行评分的电影id列表
+	 * 
+	 * @param id1
+	 * @param id2
+	 * @return
+	 */
 	public List<Integer> getSameMovieIds(int id1, int id2) {
 		try {
 			sql = "SELECT movie_id FROM u_data where user_id in (" + id1 + "," + id2
 					+ ") GROUP BY movie_id HAVING COUNT(movie_id)>1";
+			ResultSet set = conn.createStatement().executeQuery(sql);
+			List<Integer> result = new ArrayList<>();
+			while (set.next()) {
+				result.add(set.getInt(1));
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 获取对两部电影都评分的用户id列表
+	 * 
+	 * @param movieId1
+	 * @param movieId2
+	 * @return
+	 */
+	public List<Integer> getSameUserIds(int movieId1, int movieId2) {
+		try {
+			sql = "SELECT user_id from u_data WHERE movie_id in(" + movieId1 + "," + movieId2
+					+ ") GROUP BY user_id HAVING COUNT(user_id)>1";
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			List<Integer> result = new ArrayList<>();
 			while (set.next()) {

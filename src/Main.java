@@ -39,9 +39,9 @@ public class Main {
 			System.out.println(
 					"begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 1; i <= 943; i++) {
+			for (int i = 7; i <= 943; i++) {
 				for (int j = i + 1; j <= 943; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getSimilarity(i, j) + "\r\n";
+					String s = i + "\t" + j + "\t" + dbUtils.getUBCFSimilarity(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}
