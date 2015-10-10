@@ -135,8 +135,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByMids(int movieId1, int movieId2, int sameUid) {
 		try {
-			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2
-					+ ") and user_id = " + sameUid;
+			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2 + ") and user_id = "
+					+ sameUid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -161,8 +161,7 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByUids(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
-					+ ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -259,9 +258,8 @@ public class DBUtils {
 			double weight1 = ((double) (sameMoivesCount * sameMoivesCount))
 					/ ((double) (u1MoivesCount * u2MoivesCount));
 			// 线性权重
-			double weight2 = ((double) sameMoivesCount)
-					/ ((double) (u1MoivesCount + u2MoivesCount));
-			return weight1 + "\t" + weight2;
+			double weight2 = ((double) sameMoivesCount) / ((double) (u1MoivesCount + u2MoivesCount));
+			return sameMoivesCount + "\t" + u1MoivesCount + "\t" + u2MoivesCount + "\t" + weight1 + "\t" + weight2;
 		}
 	}
 }
