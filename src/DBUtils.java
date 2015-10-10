@@ -256,9 +256,11 @@ public class DBUtils {
 			return "0\t0";
 		else {
 			// 平方权重
-			double weight1 = (sameMoivesCount * sameMoivesCount) / (u1MoivesCount * u2MoivesCount);
+			double weight1 = ((double) (sameMoivesCount * sameMoivesCount))
+					/ ((double) (u1MoivesCount * u2MoivesCount));
 			// 线性权重
-			double weight2 = (sameMoivesCount) / (u1MoivesCount + u2MoivesCount);
+			double weight2 = ((double) sameMoivesCount)
+					/ ((double) (u1MoivesCount + u2MoivesCount));
 			return weight1 + "\t" + weight2;
 		}
 	}
