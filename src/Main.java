@@ -29,7 +29,8 @@ public class Main {
 		// System.out.println(integer);
 		// }
 		try {
-			File f = new File("D:/IBCFsimilarity.txt");
+			// File f = new File("D:/IBCFsimilarity.txt");
+			File f = new File("D:/weight.txt");
 			if (f.exists())
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -41,7 +42,9 @@ public class Main {
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 1682; i++) {
 				for (int j = i + 1; j <= 1682; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getIBCFSimilarity(i, j) + "\r\n";
+					// String s = i + "\t" + j + "\t" +
+					// dbUtils.getIBCFSimilarity(i, j) + "\r\n";
+					String s = i + "\t" + j + "\t" + dbUtils.getWeight(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}

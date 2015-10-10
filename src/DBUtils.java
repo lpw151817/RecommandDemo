@@ -135,8 +135,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByMids(int movieId1, int movieId2, int sameUid) {
 		try {
-			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2 + ") and user_id = "
-					+ sameUid;
+			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2
+					+ ") and user_id = " + sameUid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -161,7 +161,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByUids(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
+					+ ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -225,4 +226,40 @@ public class DBUtils {
 		}
 	}
 
+	/**
+	 * 获取一个人对于所有评分电影的id
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public List<Integer> getNotNunMovies(int uid) {
+		try {
+			sql = "SELECT movie_id FROM u_data where user_id = " + uid;
+			ResultSet set = conn.createStatement().executeQuery(sql);
+			List<Integer> result = new ArrayList<>();
+			while (set.next()) {
+				result.add(set.getInt(1));
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String getWeight(int uid1, int uid2) {
+		int sameMoivesCount = getSameMovieIds(uid1, uid2).size();
+		int u1MoivesCount = getNotNunMovies(uid1).size();
+		int u2MoivesCount = getNotNunMovies(uid2).size();
+
+		if (sameMoivesCount == 0 || u1MoivesCount == 0 || u2MoivesCount == 0)
+			return "0\t0";
+		else {
+			// 平方权重
+			double weight1 = (sameMoivesCount * sameMoivesCount) / (u1MoivesCount * u2MoivesCount);
+			// 线性权重
+			double weight2 = (sameMoivesCount) / (u1MoivesCount + u2MoivesCount);
+			return weight1 + "\t" + weight2;
+		}
+	}
 }
