@@ -30,7 +30,7 @@ public class CulSimilarity {
 			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis())) + "\r\n").getBytes());
 			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 1; i <= 1682; i++) {
+			for (int i = 1; i <= 1; i++) {
 				for (int j = i + 1; j <= 1682; j++) {
 					String s = i + "\t" + j + "\t" + dbUtils.getIBCFSimilarity(i, j) + "\r\n";
 					fo.write(s.getBytes());

@@ -33,7 +33,7 @@ public class CulWeight {
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 943; i++) {
 				for (int j = i + 1; j <= 943; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getWeight(i, j) + "\r\n";
+					String s = i + "\t" + j + "\t" + dbUtils.getIBCFWeight(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}

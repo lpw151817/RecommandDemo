@@ -135,8 +135,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByMids(int movieId1, int movieId2, int sameUid) {
 		try {
-			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2 + ") and user_id = "
-					+ sameUid;
+			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2
+					+ ") and user_id = " + sameUid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -161,7 +161,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByUids(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
+					+ ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -231,7 +232,7 @@ public class DBUtils {
 	 * @param uid
 	 * @return
 	 */
-	public List<Integer> getNotNunMovies(int uid) {
+	public List<Integer> getNotNunMovieIdsByUid(int uid) {
 		try {
 			sql = "SELECT movie_id FROM u_data where user_id = " + uid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
@@ -246,10 +247,35 @@ public class DBUtils {
 		}
 	}
 
-	public String getWeight(int uid1, int uid2) {
+	/**
+	 * 获取所有对这部电影打分的用户个数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public List<Integer> getNotNunUserIdsByMid(int mid) {
+		try {
+			sql = "SELECT movie_id FROM u_data where movie_id = " + mid;
+			ResultSet set = conn.createStatement().executeQuery(sql);
+			List<Integer> result = new ArrayList<>();
+			while (set.next()) {
+				result.add(set.getInt(1));
+			}
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 计算两个人之间的权重
+	 * 
+	 */
+	public String getUBCFWeight(int uid1, int uid2) {
 		int sameMoivesCount = getSameMovieIds(uid1, uid2).size();
-		int u1MoivesCount = getNotNunMovies(uid1).size();
-		int u2MoivesCount = getNotNunMovies(uid2).size();
+		int u1MoivesCount = getNotNunMovieIdsByUid(uid1).size();
+		int u2MoivesCount = getNotNunMovieIdsByUid(uid2).size();
 
 		if (sameMoivesCount == 0 || u1MoivesCount == 0 || u2MoivesCount == 0)
 			return "0\t0";
@@ -258,8 +284,32 @@ public class DBUtils {
 			double weight1 = ((double) (sameMoivesCount * sameMoivesCount))
 					/ ((double) (u1MoivesCount * u2MoivesCount));
 			// 线性权重
-			double weight2 = ((double) sameMoivesCount) / ((double) (u1MoivesCount + u2MoivesCount));
-			return sameMoivesCount + "\t" + u1MoivesCount + "\t" + u2MoivesCount + "\t" + weight1 + "\t" + weight2;
+			double weight2 = ((double) sameMoivesCount)
+					/ ((double) (u1MoivesCount + u2MoivesCount));
+			return sameMoivesCount + "\t" + u1MoivesCount + "\t" + u2MoivesCount + "\t" + weight1
+					+ "\t" + weight2;
+		}
+	}
+
+	/**
+	 * 计算两个电影之间的权重
+	 * 
+	 */
+	public String getIBCFWeight(int mid1, int mid2) {
+		int sameUsersCount = getSameUserIds(mid1, mid1).size();
+		int u1Count = getNotNunUserIdsByMid(mid1).size();
+		int u2Count = getNotNunUserIdsByMid(mid2).size();
+
+		if (sameUsersCount == 0 || u1Count == 0 || u2Count == 0)
+			return "0\t0";
+		else {
+			// 平方权重
+			double weight1 = ((double) (sameUsersCount * sameUsersCount))
+					/ ((double) (u1Count * u2Count));
+			// 线性权重
+			double weight2 = ((double) sameUsersCount) / ((double) (u1Count + u2Count));
+			return sameUsersCount + "\t" + u1Count + "\t" + u2Count + "\t" + weight1 + "\t"
+					+ weight2;
 		}
 	}
 }
