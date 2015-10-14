@@ -80,6 +80,20 @@ public class DBUtils {
 		}
 	}
 
+	public int getRate(int uid, int mid) {
+		try {
+			sql = "select rate from u_data where movie_id =" + mid + " and  user_id = " + uid;
+			ResultSet set = conn.createStatement().executeQuery(sql);
+			int rate = -1;
+			if (set.next())
+				rate = set.getInt(1);
+			return rate;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 	/**
 	 * 计算两个物品的相似度
 	 * 
@@ -135,8 +149,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByMids(int movieId1, int movieId2, int sameUid) {
 		try {
-			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2 + ") and user_id = "
-					+ sameUid;
+			sql = "select * from u_data where movie_id in (" + movieId1 + " , " + movieId2
+					+ ") and user_id = " + sameUid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -161,7 +175,8 @@ public class DBUtils {
 	 */
 	public int[] getSameMovieRateByUids(int id1, int id2, int sameMovieId) {
 		try {
-			sql = "select * from u_data where user_id in (" + id1 + " , " + id2 + ") and movie_id = " + sameMovieId;
+			sql = "select * from u_data where user_id in (" + id1 + " , " + id2
+					+ ") and movie_id = " + sameMovieId;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			int[] result = new int[2];
 			while (set.next()) {
@@ -283,8 +298,10 @@ public class DBUtils {
 			double weight1 = ((double) (sameMoivesCount * sameMoivesCount))
 					/ ((double) (u1MoivesCount * u2MoivesCount));
 			// 线性权重
-			double weight2 = ((double) sameMoivesCount) / ((double) (u1MoivesCount + u2MoivesCount));
-			return sameMoivesCount + "\t" + u1MoivesCount + "\t" + u2MoivesCount + "\t" + weight1 + "\t" + weight2;
+			double weight2 = ((double) sameMoivesCount)
+					/ ((double) (u1MoivesCount + u2MoivesCount));
+			return sameMoivesCount + "\t" + u1MoivesCount + "\t" + u2MoivesCount + "\t" + weight1
+					+ "\t" + weight2;
 		}
 	}
 
@@ -301,10 +318,12 @@ public class DBUtils {
 			return "0\t0";
 		else {
 			// 平方权重
-			double weight1 = ((double) (sameUsersCount * sameUsersCount)) / ((double) (u1Count * u2Count));
+			double weight1 = ((double) (sameUsersCount * sameUsersCount))
+					/ ((double) (u1Count * u2Count));
 			// 线性权重
 			double weight2 = ((double) sameUsersCount) / ((double) (u1Count + u2Count));
-			return sameUsersCount + "\t" + u1Count + "\t" + u2Count + "\t" + weight1 + "\t" + weight2;
+			return sameUsersCount + "\t" + u1Count + "\t" + u2Count + "\t" + weight1 + "\t"
+					+ weight2;
 		}
 	}
 }

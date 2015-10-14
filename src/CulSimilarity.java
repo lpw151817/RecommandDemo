@@ -27,8 +27,10 @@ public class CulSimilarity {
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			FileOutputStream fo = new FileOutputStream(f);
-			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis())) + "\r\n").getBytes());
-			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
+			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis()))
+					+ "\r\n").getBytes());
+			System.out.println(
+					"begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 1; i++) {
 				for (int j = i + 1; j <= 1682; j++) {
@@ -37,8 +39,10 @@ public class CulSimilarity {
 				}
 			}
 
-			System.out.println("end = " + df.format(new java.util.Date(System.currentTimeMillis())));
-			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis())) + "\r\n").getBytes());
+			System.out
+					.println("end = " + df.format(new java.util.Date(System.currentTimeMillis())));
+			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis()))
+					+ "\r\n").getBytes());
 			fo.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
