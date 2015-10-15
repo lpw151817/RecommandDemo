@@ -323,7 +323,7 @@ public class DBUtils {
 			// 线性权重
 			double weight2 = ((double) sameUsersCount) / ((double) (u1Count + u2Count));
 			return sameUsersCount + "\t" + u1Count + "\t" + u2Count + "\t" + weight1 + "\t"
-					+ weight2;
+					+ weight2 + "\t" + (weight1 * weight1);
 		}
 	}
 }
