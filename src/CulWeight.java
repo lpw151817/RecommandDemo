@@ -32,7 +32,7 @@ public class CulWeight {
 			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 1682; i++) {
-				for (int j = i + 1; j <= 1682; j++) {
+				for (int j =  1; j <= 272; j++) {
 					String s = i + "\t" + j + "\t" + dbUtils.getIBCFWeight(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}

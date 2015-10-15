@@ -30,7 +30,7 @@ public class CulRate {
 			fo.write(("uid\t" + "mid\t" + "rate\r\n").getBytes());
 			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 1; i <= 943; i++) {
+			for (int i = 5; i <= 943; i++) {
 				for (int j = 1; j <= 1682; j++) {
 					String s = i + "\t" + j + "\t" + dbUtils.getRate(i, j) + "\r\n";
 					fo.write(s.getBytes());
