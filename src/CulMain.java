@@ -32,7 +32,7 @@ public class CulMain {
 					+ "uid1 rate\t\t" + "无of预测值\tof1预测值\tof2预测值	of1平方预测值" + "\r\n").getBytes());
 			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 1; i <= 1682; i++) {
+			for (int i = 55; i <= 1682; i++) {
 				for (int j = 1; j <= 272; j++) {
 					String s = i + "\t" + j + "\t" + dbUtils.getIBCFWeight(i, j) + "\t"
 							+ dbUtils.getIBCFSimilarity(i, j) + "\r\n";
