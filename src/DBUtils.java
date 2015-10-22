@@ -269,7 +269,7 @@ public class DBUtils {
 	 */
 	public List<Integer> getNotNunUserIdsByMid(int mid) {
 		try {
-			sql = "SELECT movie_id FROM u_data where movie_id = " + mid;
+			sql = "SELECT user_id FROM u_data where movie_id = " + mid;
 			ResultSet set = conn.createStatement().executeQuery(sql);
 			List<Integer> result = new ArrayList<>();
 			while (set.next()) {
