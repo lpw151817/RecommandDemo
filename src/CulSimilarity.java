@@ -27,13 +27,11 @@ public class CulSimilarity {
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			FileOutputStream fo = new FileOutputStream(f);
-			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis()))
-					+ "\r\n").getBytes());
 			System.out.println(
 					"begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
 			for (int i = 1; i <= 1682; i++) {
-				for (int j =  1; j <= 272; j++) {
+				for (int j = 1; j <= 1682; j++) {
 					String s = i + "\t" + j + "\t" + dbUtils.getIBCFSimilarity(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
