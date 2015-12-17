@@ -1,3 +1,4 @@
+package data100k;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,29 +19,26 @@ import java.util.PrimitiveIterator.OfDouble;
 import javax.rmi.CORBA.Util;
 import javax.xml.transform.Templates;
 
-public class CulSimilarity {
+public class CulRate {
 
 	public static void main(String[] args) {
 		try {
-			File f = new File("D:/IBCFsimilarity.txt");
+			File f = new File("D:/rate.txt");
 			if (f.exists())
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			FileOutputStream fo = new FileOutputStream(f);
-			System.out.println(
-					"begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
+			fo.write(("uid\t" + "mid\t" + "rate\r\n").getBytes());
+			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 1; i <= 1682; i++) {
+			for (int i = 5; i <= 943; i++) {
 				for (int j = 1; j <= 1682; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getIBCFSimilarity(i, j) + "\r\n";
+					String s = i + "\t" + j + "\t" + dbUtils.getRate(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}
 
-			System.out
-					.println("end = " + df.format(new java.util.Date(System.currentTimeMillis())));
-			fo.write(("begin = " + df.format(new java.util.Date(System.currentTimeMillis()))
-					+ "\r\n").getBytes());
+			System.out.println("end = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			fo.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

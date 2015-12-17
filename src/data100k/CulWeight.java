@@ -1,3 +1,4 @@
+package data100k;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,21 +19,22 @@ import java.util.PrimitiveIterator.OfDouble;
 import javax.rmi.CORBA.Util;
 import javax.xml.transform.Templates;
 
-public class CulRate {
+public class CulWeight {
 
 	public static void main(String[] args) {
 		try {
-			File f = new File("D:/rate.txt");
+			File f = new File("D:/IBCFWeight.txt");
 			if (f.exists())
 				f.delete();
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			FileOutputStream fo = new FileOutputStream(f);
-			fo.write(("uid\t" + "mid\t" + "rate\r\n").getBytes());
+			fo.write(("uid1\t" + "uid2\t" + "same movie count\t" + "uid1 moive count\t" + "uid2 moive count\t"
+					+ "weight1\t" + "weight2" + "\r\n").getBytes());
 			System.out.println("begin = " + df.format(new java.util.Date(System.currentTimeMillis())));
 			DBUtils dbUtils = new DBUtils();
-			for (int i = 5; i <= 943; i++) {
-				for (int j = 1; j <= 1682; j++) {
-					String s = i + "\t" + j + "\t" + dbUtils.getRate(i, j) + "\r\n";
+			for (int i = 1; i <= 1682; i++) {
+				for (int j =  1; j <= 272; j++) {
+					String s = i + "\t" + j + "\t" + dbUtils.getIBCFWeight(i, j) + "\r\n";
 					fo.write(s.getBytes());
 				}
 			}

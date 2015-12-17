@@ -1,3 +1,4 @@
+package data100k;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,17 +35,17 @@ public class FileUtils {
 		if (!f.exists())
 			return null;
 		try {
-			String readedStr = "";
 			BufferedReader br;
 			InputStream inputStream = new FileInputStream(f);
 			br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+			StringBuilder sb = new StringBuilder();
 			String tmp;
 			while ((tmp = br.readLine()) != null) {
-				readedStr += tmp + "\r\n";
+				sb.append(tmp).append("\r\n");
 			}
 			br.close();
 			inputStream.close();
-			return readedStr;
+			return sb.toString();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return null;

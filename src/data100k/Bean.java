@@ -1,3 +1,4 @@
+package data100k;
 
 public class Bean {
 	private int userid;
